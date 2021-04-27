@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goober.RabbitMq.WebApi", "Goober.RabbitMq.WebApi\Goober.RabbitMq.WebApi.csproj", "{3F5829A8-3285-4FC1-AF8E-0A4B6EE04263}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goober.RabbitMq.Producer", "Goober.RabbitMq.Producer\Goober.RabbitMq.Producer.csproj", "{BD0E92BE-EBEC-4281-9F5E-DC9AF2BEB728}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Goober.RabbitMq.Host", "Goober.RabbitMq.Host\Goober.RabbitMq.Host.csproj", "{35AAB64B-70D5-4A16-B3C9-409E82C8D833}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F5829A8-3285-4FC1-AF8E-0A4B6EE04263}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F5829A8-3285-4FC1-AF8E-0A4B6EE04263}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F5829A8-3285-4FC1-AF8E-0A4B6EE04263}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F5829A8-3285-4FC1-AF8E-0A4B6EE04263}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD0E92BE-EBEC-4281-9F5E-DC9AF2BEB728}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD0E92BE-EBEC-4281-9F5E-DC9AF2BEB728}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD0E92BE-EBEC-4281-9F5E-DC9AF2BEB728}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD0E92BE-EBEC-4281-9F5E-DC9AF2BEB728}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35AAB64B-70D5-4A16-B3C9-409E82C8D833}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35AAB64B-70D5-4A16-B3C9-409E82C8D833}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35AAB64B-70D5-4A16-B3C9-409E82C8D833}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35AAB64B-70D5-4A16-B3C9-409E82C8D833}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B46C9E95-DB37-4E09-943C-36294A6DAD36}
+	EndGlobalSection
+EndGlobal
