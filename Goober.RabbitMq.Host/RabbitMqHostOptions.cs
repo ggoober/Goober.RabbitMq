@@ -1,4 +1,6 @@
-﻿namespace Goober.RabbitMq.Host
+﻿using EasyNetQ;
+
+namespace Goober.RabbitMq.Host
 {
     public class RabbitMqHostOptions
     {
@@ -8,6 +10,5 @@
         public string UserName { get; set; }
         public string Password { get; set; }
         public string AppName { get; set; }
-
     }
 }
