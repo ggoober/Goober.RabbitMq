@@ -4,4 +4,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Goober.Web" Version="3.1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Goober.RabbitMq.Api\Goober.RabbitMq.Api.csproj" />
+    <ProjectReference Include="..\Goober.RabbitMq.DAL.Abstractions\Goober.RabbitMq.DAL.Abstractions.csproj" />
+  </ItemGroup>
+
 </Project>
