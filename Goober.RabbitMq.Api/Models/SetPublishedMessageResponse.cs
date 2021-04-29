@@ -2,7 +2,7 @@
 
 namespace Goober.RabbitMq.Api.Models
 {
-    public class SetPublishedEventMessageResponse
+    public class SetPublishedMessageResponse
     {
         public string RowVersion { get; set; }
 

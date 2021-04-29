@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Goober.RabbitMq.Api.Services.Implementation
 {
-    class PublishEventMessageHttpService
+    class MessageHttpService
     {
     }
 }

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Goober.EntityFramework.SqlServer" Version="3.1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Goober.RabbitMq.DAL.Abstractions\Goober.RabbitMq.DAL.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

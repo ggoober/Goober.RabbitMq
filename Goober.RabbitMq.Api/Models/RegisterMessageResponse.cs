@@ -1,6 +1,6 @@
 ﻿namespace Goober.RabbitMq.Api.Models
 {
-    public class RegisterPublishEventMessageResponse
+    public class RegisterMessageResponse
     {
         public long Id { get; set; }
 

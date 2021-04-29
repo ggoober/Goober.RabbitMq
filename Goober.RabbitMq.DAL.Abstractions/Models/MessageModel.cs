@@ -1,16 +1,16 @@
 ﻿using System;
 
-namespace Goober.RabbitMq.DAL.Abstractions.Models
+namespace Goober.RabbitMq.DAL.Models
 {
-    public class PublishEventMessageModel
+    public class MessageModel
     {
         public long Id { get; set; }
 
         public string Hash { get; set; }
 
-        public string EventMessageTypeFullName { get; set; }
+        public string MessageTypeFullName { get; set; }
 
-        public string JEventMessage { get; set; }
+        public string JMessage { get; set; }
 
         public string CheckTransactionUrl { get; set; }
 

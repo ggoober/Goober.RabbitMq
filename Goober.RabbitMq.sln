@@ -9,9 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goober.RabbitMq.Producer", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goober.RabbitMq.Host", "Goober.RabbitMq.Host\Goober.RabbitMq.Host.csproj", "{35AAB64B-70D5-4A16-B3C9-409E82C8D833}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Goober.RabbitMq.DAL.Abstractions", "Goober.RabbitMq.DAL.Abstractions\Goober.RabbitMq.DAL.Abstractions.csproj", "{E5F140C5-61CE-443F-95E9-CC3F796461DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goober.RabbitMq.DAL.Abstractions", "Goober.RabbitMq.DAL.Abstractions\Goober.RabbitMq.DAL.Abstractions.csproj", "{E5F140C5-61CE-443F-95E9-CC3F796461DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Goober.RabbitMq.Api", "Goober.RabbitMq.Api\Goober.RabbitMq.Api.csproj", "{A428C5BD-57BA-4879-B43F-332A86E097DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goober.RabbitMq.Api", "Goober.RabbitMq.Api\Goober.RabbitMq.Api.csproj", "{A428C5BD-57BA-4879-B43F-332A86E097DF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goober.RabbitMq.DAL.MsSql", "Goober.RabbitMq.DAL.MsSql\Goober.RabbitMq.DAL.MsSql.csproj", "{C5013132-4D16-4BC9-9040-0D99BBED5332}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2E516286-3ABC-45B2-8792-72F99ACC11F4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goober.RabbitMq.WebApi.Tests", "Goober.RabbitMq.WebApi.Tests\Goober.RabbitMq.WebApi.Tests.csproj", "{4AB8ADB4-26BB-45BD-B843-439CE51C1C86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +45,20 @@ Global
 		{A428C5BD-57BA-4879-B43F-332A86E097DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A428C5BD-57BA-4879-B43F-332A86E097DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A428C5BD-57BA-4879-B43F-332A86E097DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5013132-4D16-4BC9-9040-0D99BBED5332}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5013132-4D16-4BC9-9040-0D99BBED5332}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5013132-4D16-4BC9-9040-0D99BBED5332}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5013132-4D16-4BC9-9040-0D99BBED5332}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AB8ADB4-26BB-45BD-B843-439CE51C1C86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AB8ADB4-26BB-45BD-B843-439CE51C1C86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AB8ADB4-26BB-45BD-B843-439CE51C1C86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AB8ADB4-26BB-45BD-B843-439CE51C1C86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4AB8ADB4-26BB-45BD-B843-439CE51C1C86} = {2E516286-3ABC-45B2-8792-72F99ACC11F4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B46C9E95-DB37-4E09-943C-36294A6DAD36}

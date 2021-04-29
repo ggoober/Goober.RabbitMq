@@ -1,10 +1,10 @@
 ﻿namespace Goober.RabbitMq.Api.Models
 {
-    public class RegisterPublishEventMessageRequest
+    public class RegisterMessageRequest
     {
-        public string EventMessageTypeFullName { get; set; }
+        public string MessageTypeFullName { get; set; }
 
-        public string JEventMessage { get; set; }
+        public string JMessage { get; set; }
 
         public string CheckTransactionUrl { get; set; }
 
