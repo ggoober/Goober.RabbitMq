@@ -1,8 +1,10 @@
-﻿namespace Goober.RabbitMq.Api.Models
+﻿using System;
+
+namespace Goober.RabbitMq.Api.Models
 {
     public class RegisterMessageResponse
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Hash { get; set; }
 

@@ -1,13 +1,15 @@
 ﻿using Goober.EntityFramework.Common.Implementation;
 using Goober.RabbitMq.DAL.Models;
-using Goober.RabbitMq.DAL.Repository;
+using Goober.RabbitMq.DAL.Repositories;
 using Goober.RabbitMq.DAL.MsSql.DbContext;
 using Goober.RabbitMq.DAL.MsSql.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Goober.RabbitMq.DAL.MsSql.Repository.Implementation
+namespace Goober.RabbitMq.DAL.MsSql.Repositories.Implementation
 {
     class MessageRepository: BaseRepository<Message>, IMessageRepository
     {
@@ -16,7 +18,7 @@ namespace Goober.RabbitMq.DAL.MsSql.Repository.Implementation
         {
         }
 
-        public async Task<MessageModel> GetByIdAsync(long id)
+        public async Task<MessageModel> GetByIdAsync(Guid id)
         {
             var res = await DbSet.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -112,6 +114,13 @@ namespace Goober.RabbitMq.DAL.MsSql.Repository.Implementation
             messageModel.RowVersion = existed.RowVersion;
             messageModel.RowChangedDate = existed.RowChangedDate;
             messageModel.RowCreatedDate = existed.RowCreatedDate;
+        }
+
+        public async Task<List<MessageModel>> GetAllForTestAsync()
+        {
+            var res = await DbSet.ToListAsync();
+
+            return res.Select(ConvertToMessageModel).ToList();
         }
     }
 }

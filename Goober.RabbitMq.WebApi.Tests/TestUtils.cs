@@ -1,7 +1,5 @@
 ﻿using Goober.Tests;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Goober.RabbitMq.WebApi.Tests
 {
@@ -19,5 +17,9 @@ namespace Goober.RabbitMq.WebApi.Tests
             return ret;
 
         }
+
+        public const string RegisterMessageUrlPath = "/api/message/register";
+
+        public const string SetPublishedMessageUrlPath = "/api/message/set-published";
     }
 }

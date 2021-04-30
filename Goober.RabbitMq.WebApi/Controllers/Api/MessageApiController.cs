@@ -2,8 +2,9 @@
 using Goober.Core.Services;
 using Goober.RabbitMq.Api.Models;
 using Goober.RabbitMq.DAL.Models;
-using Goober.RabbitMq.DAL.Repository;
+using Goober.RabbitMq.DAL.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace Goober.RabbitMq.WebApi.Controllers.Api
@@ -17,14 +18,8 @@ namespace Goober.RabbitMq.WebApi.Controllers.Api
         public MessageApiController(IMessageRepository messageRepository,
             IDateTimeService dateTimeService)
         {
-            this._messageRepository = messageRepository;
-            this._dateTimeService = dateTimeService;
-        }
-
-        [HttpGet]
-        [Route("/api/message/ping")]
-        public async Task Ping()
-        { 
+            _messageRepository = messageRepository;
+            _dateTimeService = dateTimeService;
         }
 
         [HttpPost]
@@ -77,11 +72,10 @@ namespace Goober.RabbitMq.WebApi.Controllers.Api
 
         [HttpPost]
         [Route("/api/message/set-published")]
-        public async Task<SetPublishedMessageResponse> SetPublishedAsync(SetPublishedMessageRequest request)
+        public async Task<SetPublishedMessageResponse> SetPublishedAsync([FromBody]SetPublishedMessageRequest request)
         {
             request.RequiredArgumentNotNull(nameof(request));
-            request.RequiredArgumnetNotNullAndNotDefaultValue<SetPublishedMessageRequest, int>(() => request.Id);
-            request.RequiredArgumentNotNull(propertyLambda: () => request.RowVersion);
+            request.RequiredArgumnetNotNullAndNotDefaultValue<SetPublishedMessageRequest, Guid>(() => request.Id);
 
             var eventMessage = await _messageRepository.GetByIdAsync(id: request.Id);
             eventMessage.RequiredNotNull(nameof(eventMessage));

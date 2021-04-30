@@ -1,8 +1,8 @@
 ﻿using Goober.EntityFramework.SqlServer;
-using Goober.RabbitMq.DAL.Repository;
+using Goober.RabbitMq.DAL.Repositories;
 using Goober.RabbitMq.DAL.MsSql.DbContext;
 using Goober.RabbitMq.DAL.MsSql.DbContext.Implementation;
-using Goober.RabbitMq.DAL.MsSql.Repository.Implementation;
+using Goober.RabbitMq.DAL.MsSql.Repositories.Implementation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
