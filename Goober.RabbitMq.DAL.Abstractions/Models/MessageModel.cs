@@ -27,5 +27,7 @@ namespace Goober.RabbitMq.DAL.Models
         public DateTime RowCreatedDate { get; set; }
 
         public DateTime RowChangedDate { get; set; }
+
+        public DateTime? DateOfDelete { get; set; }
     }
 }

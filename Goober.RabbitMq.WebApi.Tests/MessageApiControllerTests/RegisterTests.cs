@@ -38,6 +38,8 @@ namespace Goober.RabbitMq.WebApi.Tests.MessageApiControllerTests
 
             var dbResult = await sut.GetRequiredService<IMessageRepository>().GetByIdAsync(res.Id);
             Assert.NotNull(dbResult);
+            Assert.NotNull(dbResult.DateOfDelete);
+
             Assert.Equal(expected: registerRequest.CheckTransactionUrl, actual: dbResult.CheckTransactionUrl);
             Assert.Equal(expected: registerRequest.JMessage, actual: dbResult.JMessage);
             Assert.Equal(expected: registerRequest.MessageTypeFullName, actual: dbResult.MessageTypeFullName);

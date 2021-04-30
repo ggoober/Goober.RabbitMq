@@ -48,8 +48,9 @@ namespace Goober.RabbitMq.DAL.MsSql.Repositories.Implementation
 
         public async Task<MessageModel> GetNotPublishedAsync(string messageTypeFullName, string hash)
         {
-            var res = await DbSet.FirstOrDefaultAsync(x => 
-                x.MessageTypeFullName == messageTypeFullName 
+            var res = await DbSet.FirstOrDefaultAsync(x =>
+                x.DateOfDelete == null
+                && x.MessageTypeFullName == messageTypeFullName 
                 && x.Hash == hash 
                 && x.PublishedDateTime == null);
 
@@ -98,6 +99,11 @@ namespace Goober.RabbitMq.DAL.MsSql.Repositories.Implementation
                 throw new InvalidOperationException($"Can't find message by Id = {messageModel.Id}");
             }
 
+            if (existed.DateOfDelete != null)
+            {
+                throw new InvalidOperationException($"Can't update message Id={existed.Id}, because it's marked as Deleted");
+            }
+
             existed.Hash = messageModel.Hash;
             existed.CheckTransactionUrl = messageModel.CheckTransactionUrl;
             existed.JMessage = messageModel.JMessage;
@@ -119,6 +125,49 @@ namespace Goober.RabbitMq.DAL.MsSql.Repositories.Implementation
         public async Task<List<MessageModel>> GetAllForTestAsync()
         {
             var res = await DbSet.ToListAsync();
+
+            return res.Select(ConvertToMessageModel).ToList();
+        }
+
+        public async Task SetDeletedAsync(Guid id, DateTime dateNow)
+        {
+            var recordToDelete = await DbSet.FirstOrDefaultAsync(x => x.Id == id);
+            if (recordToDelete == null)
+            {
+                throw new InvalidOperationException($"Can't find message by Id = {id}");
+            }
+
+            if (recordToDelete.DateOfDelete != null)
+                return;
+
+            recordToDelete.DateOfDelete = dateNow;
+
+            await this.UpdateAsync(recordToDelete);
+        }
+
+        public async Task<List<MessageModel>> GetNotPublishedAsync(int topRowsCount = 100, 
+            string applicationName = null, 
+            string host = null, 
+            string messageTypeFullName = null)
+        {
+            var query = DbSet.Where(x => x.DateOfDelete == null);
+
+            if (string.IsNullOrEmpty(applicationName) == false)
+            {
+                query = query.Where(x => x.ProducerApplicationName == applicationName);
+            }
+
+            if (string.IsNullOrEmpty(host) == false)
+            {
+                query = query.Where(x => x.ProducerHost == host);
+            }
+
+            if (string.IsNullOrEmpty(messageTypeFullName) == false)
+            {
+                query = query.Where(x => x.MessageTypeFullName == messageTypeFullName);
+            }
+
+            var res = await query.OrderBy(x => x.Id).Take(topRowsCount).ToListAsync();
 
             return res.Select(ConvertToMessageModel).ToList();
         }

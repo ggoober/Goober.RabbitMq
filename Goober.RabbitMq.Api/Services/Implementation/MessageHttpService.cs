@@ -19,7 +19,7 @@ namespace Goober.RabbitMq.Api.Services.Implementation
         {
         }
 
-        protected override string ApiSchemeAndHostConfigKey { get; set; } = "RabbitMq.Api.SchemeAndHost";
+        protected override string ApiSchemeAndHostConfigKey { get; set; } = RabbitMqApiGlossary.ApiSchemeAndHostConfigKey;
 
         public async Task<RegisterMessageResponse> RegisterAsync(RegisterMessageRequest request,
                 [CallerMemberName] string callerMemberName = null)

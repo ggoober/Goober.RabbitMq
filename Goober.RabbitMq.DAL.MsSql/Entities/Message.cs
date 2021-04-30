@@ -27,6 +27,8 @@ namespace Goober.RabbitMq.DAL.MsSql.Entities
 
         public DateTime? PublishedDateTime { get; set; }
 
+        public DateTime? DateOfDelete { get; set; }
+
         [ConcurrencyCheck]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public string RowVersion { get; set; }
