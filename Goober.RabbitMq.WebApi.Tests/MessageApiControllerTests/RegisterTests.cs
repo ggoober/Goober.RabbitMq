@@ -115,7 +115,7 @@ namespace Goober.RabbitMq.WebApi.Tests.MessageApiControllerTests
 
             var firstPublishedResult = await sut.ExecutePostAsync<SetPublishedMessageResponse, SetPublishedMessageRequest>(
                 urlPath: TestUtils.SetPublishedMessageUrlPath,
-                request: new SetPublishedMessageRequest { Id = firstResult.Id, RowVersion = firstResult.RowVersion });
+                request: new SetPublishedMessageRequest { Id = firstResult.Id });
 
             var secondResult = await sut.ExecutePostAsync<RegisterMessageResponse, RegisterMessageRequest>(
                 urlPath: TestUtils.RegisterMessageUrlPath,

@@ -5,6 +5,8 @@ using Goober.RabbitMq.Api.Services;
 using Goober.RabbitMq.Host;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Polly;
+using Polly.Retry;
 using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -18,6 +20,7 @@ namespace Goober.RabbitMq.Producer.Services.Implementation
         private readonly IMessageHttpService _messageHttpService;
         private readonly ILogger<RabbitMqProducerService> _logger;
         private readonly string _applicationName;
+        private readonly AsyncRetryPolicy _defaultRetryPolicyAsync;
 
         public RabbitMqProducerService(IConfiguration configuration,
             IMessageHttpService messageHttpService,
@@ -27,6 +30,12 @@ namespace Goober.RabbitMq.Producer.Services.Implementation
             _messageHttpService = messageHttpService;
             _logger = logger;
             _applicationName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+
+            _defaultRetryPolicyAsync = Policy
+                .Handle<Exception>()
+                .WaitAndRetryAsync(
+                    retryCount: RabbitMqProducerGlossary.DefaultRetryCont,
+                    sleepDurationProvider: retryAttempt => TimeSpan.FromMilliseconds(RabbitMqProducerGlossary.DefaultRetryDelayInMilliseconds));
         }
 
         /// <summary>
@@ -86,14 +95,17 @@ namespace Goober.RabbitMq.Producer.Services.Implementation
                 }
 
                 stepExceptionMessage = "Unable to set published message after successfully published in RabbitMq";
-                
-                await _messageHttpService.SetPublishedAsync(
-                request: new SetPublishedMessageRequest
-                {
-                    Id = registerResult.Id,
-                    RowVersion = registerResult.RowVersion
-                },
-                callerMemberName: callerMemberName);
+
+                await _defaultRetryPolicyAsync.ExecuteAsync(async () => {
+                    await _messageHttpService.SetPublishedAsync
+                    (
+                        request: new SetPublishedMessageRequest 
+                            { 
+                                Id = registerResult.Id 
+                            }, 
+                        callerMemberName: callerMemberName
+                    );
+                });
             }
             catch (Exception exc)
             {
@@ -139,7 +151,7 @@ namespace Goober.RabbitMq.Producer.Services.Implementation
                 UserName = connectionString.UserName,
                 VirtualHost = connectionString.VirtualHost,
 
-                Name = connectionString.AppName ?? RabbitMqHostGlossary.ApplicationName,
+                Name = "[P]"+ (connectionString.AppName ?? RabbitMqHostGlossary.ApplicationName),
 
                 Hosts = connectionString.Hosts.Select(x => new HostConfiguration { Host = x.Host, Port = x.Port }).ToList()
             };

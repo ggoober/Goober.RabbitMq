@@ -37,7 +37,7 @@ namespace Goober.RabbitMq.WebApi.Tests.MessageApiControllerTests
             //act
             var res = await sut.ExecutePostAsync<SetPublishedMessageResponse, SetPublishedMessageRequest>(
                 urlPath: TestUtils.SetPublishedMessageUrlPath,
-                request: new SetPublishedMessageRequest { Id = existedMessage.Id, RowVersion = existedMessage.RowVersion }
+                request: new SetPublishedMessageRequest { Id = existedMessage.Id }
                 );
 
             //assert
@@ -60,7 +60,7 @@ namespace Goober.RabbitMq.WebApi.Tests.MessageApiControllerTests
             //act
             var res = await sut.ExecutePostAsync<SetPublishedMessageResponse, SetPublishedMessageRequest>(
                 urlPath: TestUtils.SetPublishedMessageUrlPath,
-                request: new SetPublishedMessageRequest { Id = existedMessage.Id, RowVersion = existedMessage.RowVersion }
+                request: new SetPublishedMessageRequest { Id = existedMessage.Id }
                 );
 
             //assert

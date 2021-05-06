@@ -38,5 +38,7 @@ namespace Goober.RabbitMq.DAL.MsSql.Entities
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime RowChangedDate { get; set; }
+
+        public DateTime? ConcurrentSelectLockDateTime { get; set; }
     }
 }

@@ -7,11 +7,11 @@ namespace Goober.RabbitMq.DAL.Repositories
 {
     public interface IMessageRepository
     {
-        Task<MessageModel> GetNotPublishedAsync(string eventMessageTypeFullName, string hash);
-        
         Task InsertAsync(MessageModel newRec);
         
         Task<MessageModel> GetByIdAsync(Guid id);
+
+        Task<MessageModel> GetNotPublishedAsync(string messageTypeFullName, string hash);
 
         Task UpdateAsync(MessageModel eventMessage);
 
@@ -19,9 +19,12 @@ namespace Goober.RabbitMq.DAL.Repositories
 
         Task SetDeletedAsync(Guid id, DateTime dateNow);
 
-        Task<List<MessageModel>> GetNotPublishedAsync(string applicationName,
+        Task<List<Guid>> GetNotPublishedIdsAsync(
+            DateTime createdDelayEndDateTime,
             int topRowsCount = 100,
+            string applicationName = null,
             string host = null,
-            string messageTypeFullName = null);
+            string messageTypeFullName = null,
+            DateTime? concurrentSelectLockEndDateTime = null);
     }
 }

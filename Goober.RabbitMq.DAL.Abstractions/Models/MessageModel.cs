@@ -29,5 +29,7 @@ namespace Goober.RabbitMq.DAL.Models
         public DateTime RowChangedDate { get; set; }
 
         public DateTime? DateOfDelete { get; set; }
+
+        public DateTime? ConcurrentSelectLockDateTime { get; set; }
     }
 }

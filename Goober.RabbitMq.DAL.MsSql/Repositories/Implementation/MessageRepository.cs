@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace Goober.RabbitMq.DAL.MsSql.Repositories.Implementation
 {
-    class MessageRepository: BaseRepository<Message>, IMessageRepository
+    class MessageRepository : BaseRepository<Message>, IMessageRepository
     {
         public MessageRepository(IRabbitMqDBContext dbContext)
             : base(dbContext.Messages)
@@ -26,6 +26,21 @@ namespace Goober.RabbitMq.DAL.MsSql.Repositories.Implementation
                 return null;
             return ConvertToMessageModel(res);
         }
+
+        public async Task<MessageModel> GetNotPublishedAsync(string messageTypeFullName, string hash)
+        {
+            var res = await DbSet.FirstOrDefaultAsync(x =>
+                x.DateOfDelete == null
+                && x.MessageTypeFullName == messageTypeFullName
+                && x.Hash == hash
+                && x.PublishedDateTime == null);
+
+            if (res == null)
+                return null;
+
+            return ConvertToMessageModel(res);
+        }
+
 
         private static MessageModel ConvertToMessageModel(Message message)
         {
@@ -44,20 +59,6 @@ namespace Goober.RabbitMq.DAL.MsSql.Repositories.Implementation
                 RowCreatedDate = message.RowCreatedDate,
                 RowVersion = message.RowVersion
             };
-        }
-
-        public async Task<MessageModel> GetNotPublishedAsync(string messageTypeFullName, string hash)
-        {
-            var res = await DbSet.FirstOrDefaultAsync(x =>
-                x.DateOfDelete == null
-                && x.MessageTypeFullName == messageTypeFullName 
-                && x.Hash == hash 
-                && x.PublishedDateTime == null);
-
-            if (res == null)
-                return null;
-
-            return ConvertToMessageModel(res);
         }
 
         public async Task InsertAsync(MessageModel messageModel)
@@ -87,7 +88,9 @@ namespace Goober.RabbitMq.DAL.MsSql.Repositories.Implementation
                 ProducerHost = messageModel.ProducerHost,
                 PublishedDateTime = messageModel.PublishedDateTime,
                 RowChangedDate = messageModel.RowChangedDate,
-                RowCreatedDate = messageModel.RowCreatedDate
+                RowCreatedDate = messageModel.RowCreatedDate,
+                ConcurrentSelectLockDateTime = messageModel.ConcurrentSelectLockDateTime,
+                DateOfDelete = messageModel.DateOfDelete
             };
         }
 
@@ -114,6 +117,8 @@ namespace Goober.RabbitMq.DAL.MsSql.Repositories.Implementation
             existed.PublishedDateTime = messageModel.PublishedDateTime;
             existed.RowVersion = messageModel.RowVersion;
             existed.RowCreatedDate = messageModel.RowCreatedDate;
+            existed.ConcurrentSelectLockDateTime = messageModel.ConcurrentSelectLockDateTime;
+            existed.DateOfDelete = messageModel.DateOfDelete;
 
             await this.UpdateAsync(existed);
 
@@ -145,12 +150,16 @@ namespace Goober.RabbitMq.DAL.MsSql.Repositories.Implementation
             await this.UpdateAsync(recordToDelete);
         }
 
-        public async Task<List<MessageModel>> GetNotPublishedAsync(int topRowsCount = 100, 
+        public async Task<List<Guid>> GetNotPublishedIdsAsync(
+            DateTime createdEndDateTime,
+            int topRowsCount = 100, 
             string applicationName = null, 
             string host = null, 
-            string messageTypeFullName = null)
+            string messageTypeFullName = null,
+            DateTime? concurrentSelectLockEndDateTime = null)
         {
-            var query = DbSet.Where(x => x.DateOfDelete == null);
+            var query = DbSet.Where(x => x.DateOfDelete == null 
+                                        && x.RowCreatedDate < createdEndDateTime);
 
             if (string.IsNullOrEmpty(applicationName) == false)
             {
@@ -167,9 +176,23 @@ namespace Goober.RabbitMq.DAL.MsSql.Repositories.Implementation
                 query = query.Where(x => x.MessageTypeFullName == messageTypeFullName);
             }
 
-            var res = await query.OrderBy(x => x.Id).Take(topRowsCount).ToListAsync();
+            if (concurrentSelectLockEndDateTime.HasValue == true)
+            {
+                query = query.Where(
+                                    x => (
+                                        x.ConcurrentSelectLockDateTime < concurrentSelectLockEndDateTime
+                                        || x.ConcurrentSelectLockDateTime == null
+                                         )
+                                    );
+            }
 
-            return res.Select(ConvertToMessageModel).ToList();
+            var res = await query
+                .OrderBy(x => x.Id)
+                .Take(topRowsCount)
+                .Select(x => x.Id)
+                .ToListAsync();
+
+            return res;
         }
     }
 }
